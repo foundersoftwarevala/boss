@@ -50,6 +50,13 @@
       "when": 1790101118226,
       "tag": "0006_ams_role_credentials_and_recognition_mapping",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1791019188231,
+      "tag": "0007_vala_realtime",
+      "breakpoints": true
     }
   ]
 }
