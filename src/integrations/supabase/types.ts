@@ -6636,6 +6636,421 @@ export type Database = {
         }
         Relationships: []
       }
+      rt_apps: {
+        Row: {
+          allowed_origins: string[]
+          app_id: string
+          app_key: string
+          client_events: boolean
+          created_at: string
+          environment: string
+          id: string
+          name: string
+          node_id: string | null
+          owner_id: string
+          plan: string
+          region: string | null
+          require_tls: boolean
+          secret_hash: string
+          secret_last4: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          allowed_origins?: string[]
+          app_id: string
+          app_key: string
+          client_events?: boolean
+          created_at?: string
+          environment?: string
+          id?: string
+          name: string
+          node_id?: string | null
+          owner_id: string
+          plan?: string
+          region?: string | null
+          require_tls?: boolean
+          secret_hash: string
+          secret_last4: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          allowed_origins?: string[]
+          app_id?: string
+          app_key?: string
+          client_events?: boolean
+          created_at?: string
+          environment?: string
+          id?: string
+          name?: string
+          node_id?: string | null
+          owner_id?: string
+          plan?: string
+          region?: string | null
+          require_tls?: boolean
+          secret_hash?: string
+          secret_last4?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rt_apps_node_id_fkey"
+            columns: ["node_id"]
+            isOneToOne: false
+            referencedRelation: "rt_nodes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rt_apps_plan_fkey"
+            columns: ["plan"]
+            isOneToOne: false
+            referencedRelation: "rt_plans"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
+      rt_audit: {
+        Row: {
+          action: string
+          actor: string | null
+          app: string | null
+          created_at: string
+          id: string
+          meta: Json
+          target: string | null
+        }
+        Insert: {
+          action: string
+          actor?: string | null
+          app?: string | null
+          created_at?: string
+          id?: string
+          meta?: Json
+          target?: string | null
+        }
+        Update: {
+          action?: string
+          actor?: string | null
+          app?: string | null
+          created_at?: string
+          id?: string
+          meta?: Json
+          target?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rt_audit_app_fkey"
+            columns: ["app"]
+            isOneToOne: false
+            referencedRelation: "rt_apps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rt_channels: {
+        Row: {
+          app: string
+          created_at: string
+          id: string
+          last_activity: string | null
+          message_count: number
+          name: string
+          status: string
+          type: string
+        }
+        Insert: {
+          app: string
+          created_at?: string
+          id?: string
+          last_activity?: string | null
+          message_count?: number
+          name: string
+          status?: string
+          type?: string
+        }
+        Update: {
+          app?: string
+          created_at?: string
+          id?: string
+          last_activity?: string | null
+          message_count?: number
+          name?: string
+          status?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rt_channels_app_fkey"
+            columns: ["app"]
+            isOneToOne: false
+            referencedRelation: "rt_apps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rt_events: {
+        Row: {
+          app: string
+          channel: string
+          created_at: string
+          error: string | null
+          event: string
+          id: string
+          latency_ms: number | null
+          payload: Json
+          region: string | null
+          sender: string | null
+          source: string
+          status: string
+        }
+        Insert: {
+          app: string
+          channel: string
+          created_at?: string
+          error?: string | null
+          event: string
+          id?: string
+          latency_ms?: number | null
+          payload?: Json
+          region?: string | null
+          sender?: string | null
+          source?: string
+          status?: string
+        }
+        Update: {
+          app?: string
+          channel?: string
+          created_at?: string
+          error?: string | null
+          event?: string
+          id?: string
+          latency_ms?: number | null
+          payload?: Json
+          region?: string | null
+          sender?: string | null
+          source?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rt_events_app_fkey"
+            columns: ["app"]
+            isOneToOne: false
+            referencedRelation: "rt_apps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rt_nodes: {
+        Row: {
+          capacity: number
+          connections: number
+          cpu_pct: number | null
+          created_at: string
+          host: string
+          id: string
+          is_primary: boolean
+          last_heartbeat: string | null
+          mem_pct: number | null
+          name: string
+          node_key_hash: string | null
+          node_key_last4: string | null
+          region: string | null
+          status: string
+        }
+        Insert: {
+          capacity?: number
+          connections?: number
+          cpu_pct?: number | null
+          created_at?: string
+          host: string
+          id?: string
+          is_primary?: boolean
+          last_heartbeat?: string | null
+          mem_pct?: number | null
+          name: string
+          node_key_hash?: string | null
+          node_key_last4?: string | null
+          region?: string | null
+          status?: string
+        }
+        Update: {
+          capacity?: number
+          connections?: number
+          cpu_pct?: number | null
+          created_at?: string
+          host?: string
+          id?: string
+          is_primary?: boolean
+          last_heartbeat?: string | null
+          mem_pct?: number | null
+          name?: string
+          node_key_hash?: string | null
+          node_key_last4?: string | null
+          region?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rt_nodes_region_fkey"
+            columns: ["region"]
+            isOneToOne: false
+            referencedRelation: "rt_regions"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
+      rt_plans: {
+        Row: {
+          code: string
+          created_at: string
+          max_channels: number
+          max_connections: number
+          max_messages_day: number
+          name: string
+          price_usd: number
+          sort: number
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          max_channels: number
+          max_connections: number
+          max_messages_day: number
+          name: string
+          price_usd?: number
+          sort?: number
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          max_channels?: number
+          max_connections?: number
+          max_messages_day?: number
+          name?: string
+          price_usd?: number
+          sort?: number
+        }
+        Relationships: []
+      }
+      rt_regions: {
+        Row: {
+          code: string
+          created_at: string
+          name: string
+          status: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          name: string
+          status?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          name?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      rt_webhook_deliveries: {
+        Row: {
+          app: string
+          created_at: string
+          duration_ms: number | null
+          error: string | null
+          event_id: string | null
+          id: string
+          status: number | null
+          webhook: string
+        }
+        Insert: {
+          app: string
+          created_at?: string
+          duration_ms?: number | null
+          error?: string | null
+          event_id?: string | null
+          id?: string
+          status?: number | null
+          webhook: string
+        }
+        Update: {
+          app?: string
+          created_at?: string
+          duration_ms?: number | null
+          error?: string | null
+          event_id?: string | null
+          id?: string
+          status?: number | null
+          webhook?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rt_webhook_deliveries_app_fkey"
+            columns: ["app"]
+            isOneToOne: false
+            referencedRelation: "rt_apps"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rt_webhook_deliveries_webhook_fkey"
+            columns: ["webhook"]
+            isOneToOne: false
+            referencedRelation: "rt_webhooks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rt_webhooks: {
+        Row: {
+          active: boolean
+          app: string
+          created_at: string
+          events: string[]
+          failures: number
+          id: string
+          last_delivery_at: string | null
+          last_status: number | null
+          signing_secret: string
+          url: string
+        }
+        Insert: {
+          active?: boolean
+          app: string
+          created_at?: string
+          events?: string[]
+          failures?: number
+          id?: string
+          last_delivery_at?: string | null
+          last_status?: number | null
+          signing_secret: string
+          url: string
+        }
+        Update: {
+          active?: boolean
+          app?: string
+          created_at?: string
+          events?: string[]
+          failures?: number
+          id?: string
+          last_delivery_at?: string | null
+          last_status?: number | null
+          signing_secret?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rt_webhooks_app_fkey"
+            columns: ["app"]
+            isOneToOne: false
+            referencedRelation: "rt_apps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       safety_policies: {
         Row: {
           action: string
@@ -8510,6 +8925,8 @@ export type Database = {
         Args: { p_id: string; p_reason?: string; p_to: string }
         Returns: Json
       }
+      rt_can_app: { Args: { _app: string }; Returns: boolean }
+      rt_is_operator: { Args: never; Returns: boolean }
       sf_config_draft: { Args: { p_kind: string }; Returns: Json }
       sf_config_live: { Args: { p_kind: string }; Returns: Json }
       sf_faqs: { Args: never; Returns: Json }

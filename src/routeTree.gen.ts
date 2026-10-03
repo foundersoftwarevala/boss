@@ -309,6 +309,8 @@ import { Route as AmsAwardsRulesXpRouteImport } from './routes/ams.awards.rules.
 import { Route as ApiAccountInvoiceIdRouteImport } from './routes/api/account/invoice/$id'
 import { Route as ApiOrdersIdFulfilRouteImport } from './routes/api/orders/$id/fulfil'
 import { Route as ApiProxyDemoSplatRouteImport } from './routes/api/proxy/demo.$'
+import { Route as ApiPublicRealtimeHeartbeatRouteImport } from './routes/api/public/realtime/heartbeat'
+import { Route as ApiPublicRealtimePublishRouteImport } from './routes/api/public/realtime/publish'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -1851,6 +1853,18 @@ const ApiProxyDemoSplatRoute = ApiProxyDemoSplatRouteImport.update({
   path: '/api/proxy/demo/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicRealtimeHeartbeatRoute =
+  ApiPublicRealtimeHeartbeatRouteImport.update({
+    id: '/api/public/realtime/heartbeat',
+    path: '/api/public/realtime/heartbeat',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicRealtimePublishRoute =
+  ApiPublicRealtimePublishRouteImport.update({
+    id: '/api/public/realtime/publish',
+    path: '/api/public/realtime/publish',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -2153,6 +2167,8 @@ export interface FileRoutesByFullPath {
   '/api/account/invoice/$id': typeof ApiAccountInvoiceIdRoute
   '/api/orders/$id/fulfil': typeof ApiOrdersIdFulfilRoute
   '/api/proxy/demo/$': typeof ApiProxyDemoSplatRoute
+  '/api/public/realtime/heartbeat': typeof ApiPublicRealtimeHeartbeatRoute
+  '/api/public/realtime/publish': typeof ApiPublicRealtimePublishRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -2445,6 +2461,8 @@ export interface FileRoutesByTo {
   '/api/account/invoice/$id': typeof ApiAccountInvoiceIdRoute
   '/api/orders/$id/fulfil': typeof ApiOrdersIdFulfilRoute
   '/api/proxy/demo/$': typeof ApiProxyDemoSplatRoute
+  '/api/public/realtime/heartbeat': typeof ApiPublicRealtimeHeartbeatRoute
+  '/api/public/realtime/publish': typeof ApiPublicRealtimePublishRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -2748,6 +2766,8 @@ export interface FileRoutesById {
   '/api/account/invoice/$id': typeof ApiAccountInvoiceIdRoute
   '/api/orders/$id/fulfil': typeof ApiOrdersIdFulfilRoute
   '/api/proxy/demo/$': typeof ApiProxyDemoSplatRoute
+  '/api/public/realtime/heartbeat': typeof ApiPublicRealtimeHeartbeatRoute
+  '/api/public/realtime/publish': typeof ApiPublicRealtimePublishRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -3052,6 +3072,8 @@ export interface FileRouteTypes {
     | '/api/account/invoice/$id'
     | '/api/orders/$id/fulfil'
     | '/api/proxy/demo/$'
+    | '/api/public/realtime/heartbeat'
+    | '/api/public/realtime/publish'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -3344,6 +3366,8 @@ export interface FileRouteTypes {
     | '/api/account/invoice/$id'
     | '/api/orders/$id/fulfil'
     | '/api/proxy/demo/$'
+    | '/api/public/realtime/heartbeat'
+    | '/api/public/realtime/publish'
   id:
     | '__root__'
     | '/'
@@ -3646,6 +3670,8 @@ export interface FileRouteTypes {
     | '/api/account/invoice/$id'
     | '/api/orders/$id/fulfil'
     | '/api/proxy/demo/$'
+    | '/api/public/realtime/heartbeat'
+    | '/api/public/realtime/publish'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -3780,6 +3806,8 @@ export interface RootRouteChildren {
   ApiAccountInvoiceIdRoute: typeof ApiAccountInvoiceIdRoute
   ApiOrdersIdFulfilRoute: typeof ApiOrdersIdFulfilRoute
   ApiProxyDemoSplatRoute: typeof ApiProxyDemoSplatRoute
+  ApiPublicRealtimeHeartbeatRoute: typeof ApiPublicRealtimeHeartbeatRoute
+  ApiPublicRealtimePublishRoute: typeof ApiPublicRealtimePublishRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -5884,6 +5912,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProxyDemoSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/realtime/heartbeat': {
+      id: '/api/public/realtime/heartbeat'
+      path: '/api/public/realtime/heartbeat'
+      fullPath: '/api/public/realtime/heartbeat'
+      preLoaderRoute: typeof ApiPublicRealtimeHeartbeatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/realtime/publish': {
+      id: '/api/public/realtime/publish'
+      path: '/api/public/realtime/publish'
+      fullPath: '/api/public/realtime/publish'
+      preLoaderRoute: typeof ApiPublicRealtimePublishRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -6472,6 +6514,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAccountInvoiceIdRoute: ApiAccountInvoiceIdRoute,
   ApiOrdersIdFulfilRoute: ApiOrdersIdFulfilRoute,
   ApiProxyDemoSplatRoute: ApiProxyDemoSplatRoute,
+  ApiPublicRealtimeHeartbeatRoute: ApiPublicRealtimeHeartbeatRoute,
+  ApiPublicRealtimePublishRoute: ApiPublicRealtimePublishRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
