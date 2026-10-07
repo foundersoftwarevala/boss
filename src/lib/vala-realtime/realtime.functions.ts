@@ -160,3 +160,41 @@ export const rtSetNodeStatus = createServerFn({ method: "POST" })
     await audit(context.userId, null, `node.${data.status}`, data.id);
     return { ok: true };
   });
+
+export const rtAddChannel = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) => z.object({ app: z.string().uuid(), name: channelName, type: z.enum(["public", "private", "presence"]) }).parse(d))
+  .handler(async ({ data, context }) => {
+    const { data: app } = await context.supabase.from("rt_apps").select("id, plan").eq("id", data.app).single();
+    if (!app) throw new Error("Application not found");
+    const admin = await getAdmin();
+    const { data: plan } = await admin.from("rt_plans").select("max_channels").eq("code", app.plan).single();
+    const { count } = await admin.from("rt_channels").select("id", { count: "exact", head: true }).eq("app", data.app);
+    const { data: existing } = await admin.from("rt_channels").select("id").eq("app", data.app).eq("name", data.name).maybeSingle();
+    if (!existing && (count ?? 0) >= (plan?.max_channels ?? 0)) throw new Error("This application's channel limit has been reached");
+    const { error } = await context.supabase.from("rt_channels").upsert({ app: data.app, name: data.name, type: data.type, status: "active" }, { onConflict: "app,name" });
+    if (error) throw new Error(error.message);
+    await audit(context.userId, data.app, "channel.created", data.name, { type: data.type });
+    return { ok: true };
+  });
+
+export const rtSetChannelStatus = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) => z.object({ id: z.string().uuid(), status: z.enum(["active", "paused"]) }).parse(d))
+  .handler(async ({ data, context }) => {
+    const { data: channel } = await context.supabase.from("rt_channels").select("app, name").eq("id", data.id).single();
+    const { error } = await context.supabase.from("rt_channels").update({ status: data.status }).eq("id", data.id);
+    if (error) throw new Error(error.message);
+    await audit(context.userId, channel?.app ?? null, `channel.${data.status}`, channel?.name);
+    return { ok: true };
+  });
+
+export const rtUpsertPlan = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) => z.object({ code: z.string().trim().min(2).max(40).regex(/^[a-z0-9-]+$/), name: z.string().trim().min(2).max(80), max_connections: z.number().int().min(1), max_messages_day: z.number().int().min(1), max_channels: z.number().int().min(1), price_usd: z.number().min(0), sort: z.number().int().default(10) }).parse(d))
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase.from("rt_plans").upsert(data, { onConflict: "code" });
+    if (error) throw new Error(error.message);
+    await audit(context.userId, null, "plan.saved", data.code);
+    return { ok: true };
+  });
