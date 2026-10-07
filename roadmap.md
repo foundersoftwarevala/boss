@@ -15,3 +15,5 @@
 - [ ] Remove AMS mock, dummy, simulated, placeholder, and frontend-only state paths without deleting features or production data
 - [ ] Verify all common-flow actions, data persistence, and responsive layouts end to end
 - [ ] Defer enterprise hardening, performance redesign, and penetration testing to the later hardening phase
+
+- [ ] Review the newly uploaded Chat Manager repository brief and integrate requested work after Vala Realtime
